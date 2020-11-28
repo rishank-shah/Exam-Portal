@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+	<div class="container mt-3">
+		{% include 'partials/_messages.html' %}
+		<h5>Login Email Notifications</h5>
+		<form method="post" action="{% url 'email-student-pref' %}">
+			{% csrf_token %}
+			<div class="input-group">
+			  <select name = "email_pref" class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+
+			  	{% if student_preference.sendEmailOnLogin %}
+			    	<option selected name = "email_pref" value = "{{ student_preference.sendEmailOnLogin }}">{{ email_pref_value }}</option>
+			    {% endif %}
+			    	<option name = "email_pref" value="False" >Off</option>
+                    <option name = "email_pref" value="True" >On</option>
+			  </select>
+			  <div class="input-group-append">
+			    <button class="btn btn-outline-primary" type="submit" value="Save">Save</button>
+			  </div>
+			</div>
+		</form>
+
+	</div>
+
+
+
+{% endblock %}
