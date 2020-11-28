@@ -95,15 +95,20 @@ class LoginView(View):
 					messages.success(request,"Welcome, "+ user.username + ". You are now logged in.")
 
 					return redirect('index')
-					
-		
-			messages.error(request,'Account not Activated')
-			return render(request,'student/login.html')	
+			
+			else:
+				user_n = User.objects.filter(username=username).exists()
+				if user_n:
+					user_v = User.objects.get(username=username)
+					if user_v.is_active:
+						messages.error(request,'Invalid credentials')	
+						return render(request,'student/login.html')
+					else:
+						messages.error(request,'Account not Activated')
+						return render(request,'student/login.html')
 
-		messages.error(request,'Invalid credentials')
+		messages.error(request,'Please fill all fields')
 		return render(request,'student/login.html')
-		# messages.error(request,'Please fill all fields')
-		# return render(request,'student/login.html')
 
 class LogoutView(View):
 	def post(self,request):
