@@ -10,11 +10,14 @@
 			<div class="input-group">
 			  <select name = "email_pref" class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
 
-			  	{% if student_preference.sendEmailOnLogin %}
+			  	{% if student_preference %}
 			    	<option selected name = "email_pref" value = "{{ student_preference.sendEmailOnLogin }}">{{ email_pref_value }}</option>
-			    {% endif %}
-			    	<option name = "email_pref" value="False" >Off</option>
+					<option name = "email_pref" value="False" >Off</option>
                     <option name = "email_pref" value="True" >On</option>
+			    {% else %}
+					<option selected name = "email_pref" value = "True">On</option>
+					<option name = "email_pref" value="False" >Off</option>
+				{% endif %}
 			  </select>
 			  <div class="input-group-append">
 			    <button class="btn btn-outline-primary" type="submit" value="Save">Save</button>

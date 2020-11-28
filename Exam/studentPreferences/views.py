@@ -11,7 +11,7 @@ def index(request):
         if exists:
             var="Off"
             student_preference = StudentPreferenceModel.objects.get(user=request.user)
-            if student_preference.sendEmailOnLogin:
+            if student_preference.sendEmailOnLogin == True:
                 var = "On"
         return render(request,'studentPreferences/pref.html',{'student_preference':student_preference,'email_pref_value':var})
 

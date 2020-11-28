@@ -39,8 +39,8 @@ class Register(View):
             domain = get_current_site(request).domain
             link = reverse('activate',kwargs={'uidb64':uidb64,'token':account_activation_token.make_token(student)})
             activate_url = 'http://' + domain +link
-            email_subject = 'Activate your Portal account'
-            email_body = 'Hi ' + '. Please use this link to verify your account\n' + activate_url
+            email_subject = 'Activate your Exam Portal account'
+            email_body = 'Hi.Please use this link to verify your account\n' + activate_url + ".\n\n You are receiving this message because you registered on " + domain +". If you didn't register please contact support team on " + domain 
             fromEmail = 'noreply@exam.com'
             email = EmailMessage(
 				email_subject,
@@ -77,7 +77,7 @@ class LoginView(View):
 					email = User.objects.get(username=username).email
 
 					email_subject = 'You Logged into your Portal account'
-					email_body = 'If you think someone else logged in. Please contact support or reset your password'
+					email_body = "If you think someone else logged in. Please contact support or reset your password.\n\nYou are receving this message because you have enabled login email notifications in portal settings. If you don't want to recieve such emails in future please turn the login email notifications off in settings."
 					fromEmail = 'noreply@exam.com'
 					email = EmailMessage(
 						email_subject,
@@ -96,14 +96,14 @@ class LoginView(View):
 
 					return redirect('index')
 					
-				messages.error(request,'Account not ACTIVATED')
+		
+			messages.error(request,'Account not Activated')
+			return render(request,'student/login.html')	
 
-				return render(request,'student/login.html')
-
-			messages.error(request,'Invalid credentials')
-			return render(request,'student/login.html')
-		messages.error(request,'Please fill all fields')
+		messages.error(request,'Invalid credentials')
 		return render(request,'student/login.html')
+		# messages.error(request,'Please fill all fields')
+		# return render(request,'student/login.html')
 
 class LogoutView(View):
 	def post(self,request):
