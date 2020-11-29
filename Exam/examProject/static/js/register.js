@@ -22,11 +22,18 @@ usernamefield.addEventListener('keyup',(e)=>{
 	usernamevalidOut.style.display = 'block';
 	usernamefield.classList.remove('is-invalid');
 	feedBackField.style.display = 'none';
+	let headers = new Headers();
 	if(usernameValue.length>0){
 		usernamevalidOut.textContent = `Checking Username ${usernameValue}`;
 		fetch('/student/username-validate',{
 			body: JSON.stringify({username:usernameValue}),
 			method:"POST",
+			credentials: "same-origin",
+			headers: {
+				"X-CSRFToken": getCookie("csrftoken"),
+				"Accept": "application/json",
+				"Content-Type": "application/json"
+			},
 		})
 		.then((res)=>res.json())
 		.then(data=>{
@@ -44,10 +51,17 @@ emailfield.addEventListener('keyup',(e)=>{
 	const emailVal = e.target.value;
 	emailfield.classList.remove('is-invalid');
 	emailfeedBack.style.display = 'none';
+	let headers = new Headers();
 	if(emailVal.length>0){
 		fetch('/student/email-validate',{
 			body: JSON.stringify({ email: emailVal}),
-			method: "POST",
+			method:"POST",
+			credentials: "same-origin",
+			headers: {
+				"X-CSRFToken": getCookie("csrftoken"),
+				"Accept": "application/json",
+				"Content-Type": "application/json"
+			},
 		})
 		.then((res)=>res.json())
 		.then((data) => {
@@ -59,3 +73,19 @@ emailfield.addEventListener('keyup',(e)=>{
 		})
 	}
 })
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}

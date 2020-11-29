@@ -3,7 +3,9 @@ from .models import StudentPreferenceModel
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')
 def index(request):
     exists = StudentPreferenceModel.objects.filter(user=request.user).exists()
     student_preference = None
@@ -37,6 +39,7 @@ def index(request):
 
         return render(request,'studentPreferences/pref.html',{'student_preference':student_preference,'email_pref_value':var})
 
+@login_required(login_url='login')
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)

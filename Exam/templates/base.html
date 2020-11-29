@@ -44,7 +44,7 @@
   </button>
   <ul class="navbar-nav px-3" style="display:flex;flex-direction:row;align-items:center">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="">{{request.user.username}}</a>
+      <a class="nav-link" href="{% url 'email-student-pref' %}">{{request.user.username}}</a>
     </li>
     <li class="nav-item text-nowrap mt-2 ml-3">
       <form action="{% url 'logout' %}" method="POST">
