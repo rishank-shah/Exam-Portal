@@ -13,6 +13,7 @@ from django.core.mail import EmailMessage
 import threading
 from django.contrib.auth.models import User
 from studentPreferences.models import StudentPreferenceModel
+from django.contrib.auth.models import Group
 
 @login_required(login_url='login')
 def index(request):
@@ -33,6 +34,8 @@ class Register(View):
             student = student_form.save()
             student.set_password(student.password)
             student.is_active = False
+            my_group = Group.objects.get(name='Student') 
+            my_group.user_set.add(student)
             student.save()
 
             uidb64 = urlsafe_base64_encode(force_bytes(student.pk))

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="container">
+        {{examform.as_p}}
+    </div>
+    <div class="container">
+        {{prof}}
+    </div>
+    <div class="container">
+        {% for exam in exams %}
+            {{exam.name}}
+        {% endfor %}
+    </div>
+    
+{% endblock %}
