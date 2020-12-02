@@ -4,24 +4,54 @@
     <div class="mt-5">
     </div>
     <div class="container">
-        {% for exam in exams %}
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                <th scope="col">Exam Name</th>
-                <th scope="col">Exam Professor</th>
-                <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td>{{exam.name}}</td>
-                <td>{{exam.professor}}</td>
-                <td><a href="#" class="btn btn-sm btn-success">Appear</a></td>
-                </tr>
-            </tbody>
-        </table>
-        {% endfor %}
+        {% if exams %}
+            {% for exam in exams %}
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">Exam Name</th>
+                        <th scope="col">Exam Professor</th>
+                        <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>{{exam.name}}</td>
+                        <td>{{exam.professor}}</td>
+                        <td><a href="{% url 'appear-exam' exam.id  %}" class="btn btn-sm btn-danger">Appear</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% endfor %}
+        {% else %}
+            <div class="jumbotron text-center bg-success">
+                NO PENDING EXAMS
+            </div>
+        {% endif %}
+    </div>
+    <div class="container">
+        {% if completed %}
+            {% for exam in completed %}
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">Exam Name</th>
+                        <th scope="col">Exam Professor</th>
+                        <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>{{exam.name}}</td>
+                        <td>{{exam.professor}}</td>
+                        <td>
+                            <a href="{% url 'result' exam.id  %}" class="btn btn-sm btn-info">Result</a>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" value="{{ exam }}" name="paper">
+            {% endfor %}
+        {% endif %}
     </div>
     
 {% endblock %}

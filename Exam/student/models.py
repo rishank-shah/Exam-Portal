@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from questions.question_models import Question_DB
 from questions.questionpaper_models import Question_Paper
+
 class StudentInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=200, blank=True)
@@ -19,6 +20,9 @@ class Stu_Question(Question_DB):
     student = models.ForeignKey(User, limit_choices_to={'groups__name': "Student"}, on_delete=models.CASCADE, null=True)
     choice = models.CharField(max_length=3, default="E")
 
+    def __str__(self):
+        return str(self.student.username) + "Stu_QuestionDB"
+
 
 class StuExam_DB(models.Model):
     student = models.ForeignKey(User, limit_choices_to={'groups__name': "Student"}, on_delete=models.CASCADE, null=True)
@@ -28,7 +32,13 @@ class StuExam_DB(models.Model):
     score = models.IntegerField(default=0)
     completed = models.IntegerField(default=0)
 
+    def __str__(self):
+        return str(self.student.username) + "StuExam_DB"
+
 
 class StuResults_DB(models.Model):
     student = models.ForeignKey(User, limit_choices_to={'groups__name': "Student"}, on_delete=models.CASCADE, null=True)
     exams = models.ManyToManyField(StuExam_DB)
+
+    def __str__(self):
+        return str(self.student.username) + "StuResults_DB"

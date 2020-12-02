@@ -1,0 +1,35 @@
+{% extends 'base.html' %}    
+
+{% block body %}
+    <div class="mt-5">
+    </div>
+    <div class="container">
+        <h2> ExamName  - {{ exam.name }}</h2>
+        <h2> Professor - {{ exam.professor }}</h2>
+        <p>
+            This Exam is of  {{ exam.total_marks }} marks
+        </p>
+        <h2> ExamPaperName  - {{ exam.question_paper.qPaperTitle }}</h2>
+        <form method="POST" id="examform">
+            {% csrf_token %}
+            <ol>
+                {% for ques in question_list %}
+
+                <p>{{ ques.question }}</p>
+                <input type="radio" id="optionA" name="{{ ques.question }}" value="A">
+                <label for="optionA">{{ ques.optionA }}</label><br>
+                <input type="radio" id="optionB" name="{{ ques.question }}" value="B">
+                <label for="optionB">{{ ques.optionB }}</label><br>
+                <input type="radio" id="optionC" name="{{ ques.question }}" value="C">
+                <label for="optionC">{{ ques.optionC }}</label><br>
+                <input type="radio" id="optionD" name="{{ ques.question }}" value="D">
+                <label for="optionD">{{ ques.optionD }}</label><br>
+                {% endfor %}
+            </ol>
+            <input type="hidden" value="{{ qpaper.qPaperTitle}}" name="papertitle">
+            <input type="hidden" value="{{ exam }}" name="paper">
+            <input type="submit" value="Submit" name="PaperSubmit" onclick="submitFormOkay = true;">
+        </form>
+    </div>
+    
+{% endblock %}

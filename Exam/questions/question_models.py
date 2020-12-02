@@ -11,6 +11,7 @@ class Question_DB(models.Model):
     optionC = models.CharField(max_length=100)
     optionD = models.CharField(max_length=100)
     answer = models.CharField(max_length=200)
+    max_marks = models.IntegerField(default=0)
 
     def __str__(self):
         return f'Question No.{self.qno}: {self.question} \t\t Options: \nA. {self.optionA} \nB.{self.optionB} \nC.{self.optionC} \nD.{self.optionD} '
