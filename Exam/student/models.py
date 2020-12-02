@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from questions.question_models import Question_DB
+from questions.questionpaper_models import Question_Paper
 class StudentInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=200, blank=True)
@@ -12,3 +13,22 @@ class StudentInfo(models.Model):
     
     class Meta:
         verbose_name_plural = 'Student Info'
+
+class Stu_Question(Question_DB):
+    professor = None
+    student = models.ForeignKey(User, limit_choices_to={'groups__name': "Student"}, on_delete=models.CASCADE, null=True)
+    choice = models.CharField(max_length=3, default="E")
+
+
+class StuExam_DB(models.Model):
+    student = models.ForeignKey(User, limit_choices_to={'groups__name': "Student"}, on_delete=models.CASCADE, null=True)
+    examname = models.CharField(max_length=100)
+    qpaper = models.ForeignKey(Question_Paper, on_delete=models.CASCADE, null=True)
+    questions = models.ManyToManyField(Stu_Question)
+    score = models.IntegerField(default=0)
+    completed = models.IntegerField(default=0)
+
+
+class StuResults_DB(models.Model):
+    student = models.ForeignKey(User, limit_choices_to={'groups__name': "Student"}, on_delete=models.CASCADE, null=True)
+    exams = models.ManyToManyField(StuExam_DB)

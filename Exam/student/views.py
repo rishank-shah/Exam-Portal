@@ -34,8 +34,8 @@ class Register(View):
             student = student_form.save()
             student.set_password(student.password)
             student.is_active = False
-            my_group = Group.objects.get(name='Student') 
-            my_group.user_set.add(student)
+            my_group = Group.objects.get_or_create(name='Student')
+            my_group[0].user_set.add(student)
             student.save()
 
             uidb64 = urlsafe_base64_encode(force_bytes(student.pk))

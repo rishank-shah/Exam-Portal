@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="mt-5">
+    </div>
+    <div class="container">
+        {% for exam in exams %}
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Exam Name</th>
+                <th scope="col">Exam Professor</th>
+                <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>{{exam.name}}</td>
+                <td>{{exam.professor}}</td>
+                <td><a href="#" class="btn btn-sm btn-success">Appear</a></td>
+                </tr>
+            </tbody>
+        </table>
+        {% endfor %}
+    </div>
+    
+{% endblock %}
