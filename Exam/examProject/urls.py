@@ -18,8 +18,9 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('student/',include('student.urls')),
+    path('faculty/',include('faculty.urls')),
     path('student-pref/',include('studentPreferences.urls')),
-    path('exams/',include('questions.urls'))
+    path('exams/',include('questions.urls')),
 ]
 
 from django.conf import settings

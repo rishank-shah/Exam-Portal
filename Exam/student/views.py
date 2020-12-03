@@ -71,8 +71,13 @@ class LoginView(View):
 		password = request.POST['password']
 
 		if username and password:
+			exis = User.objects.filter(username=username).exists()
+			if exis:
+				user_ch = User.objects.get(username=username)
+				if user_ch.is_staff:
+					messages.error(request,"You are trying to login as student, but you have registered as faculty. We are redirecting you to faculty login. If you are having problem in logging in please reset password or contact admin")
+					return redirect('faculty-login')
 			user = auth.authenticate(username=username,password=password)
-
 			if user:
 				if user.is_active:
 					auth.login(request,user)
