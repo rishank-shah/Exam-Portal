@@ -37,8 +37,8 @@ def view_exams_student(request):
     list_of_completed = []
     list_un = []
     for exam in exams:
-        if StuExam_DB.objects.filter(examname=exam.name).exists():
-            if StuExam_DB.objects.get(examname=exam.name).completed == 1:
+        if StuExam_DB.objects.filter(examname=exam.name ,student=request.user).exists():
+            if StuExam_DB.objects.get(examname=exam.name,student=request.user).completed == 1:
                 list_of_completed.append(exam)
         else:
             list_un.append(exam)
@@ -58,45 +58,52 @@ def appear_exam(request,id):
         }
         return render(request,'exam/giveExam.html',context)
     if request.method == 'POST' :
+        student = User.objects.get(username=request.user.username)
         paper = request.POST['paper']
-        stuExam = StuExam_DB.objects.get_or_create(examname=paper, student=student)[0]
-        examMain = Exam_Model.objects.get(name=paper)
-        qPaper = stuExam.qpaper
-        stuExam.questions.all().delete()
-
+        examMain = Exam_Model.objects.get(name = paper)
+        stuExam = StuExam_DB.objects.get_or_create(examname=paper, student=student,qpaper = examMain.question_paper)[0]
+        
+        qPaper = examMain.question_paper
+        stuExam.qpaper = qPaper
+         
         qPaperQuestionsList = examMain.question_paper.questions.all()
-
         for ques in qPaperQuestionsList:
-            student_question = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,optionC=ques.optionC, optionD=ques.optionD,
-            answer=ques.answer, student=student,max_marks=ques.max_marks)
+            student_question = Stu_Question(student=student,question=ques.question, optionA=ques.optionA, optionB=ques.optionB,optionC=ques.optionC, optionD=ques.optionD,
+            answer=ques.answer)
             student_question.save()
             stuExam.questions.add(student_question)
             stuExam.save()
 
         stuExam.completed = 1
         stuExam.save()
-        secs = 0
-        stuExam = StuExam_DB.objects.get(examname=paper, student=student)
-        qPaper = stuExam.qpaper
-
-        examQuestionsList = stuExam.questions.all()
+        examQuestionsList = StuExam_DB.objects.filter(student=request.user,examname=paper,qpaper=examMain.question_paper,questions__student = request.user)[0]
+        #examQuestionsList = stuExam.questions.all()
         examScore = 0
-        for ques in examQuestionsList:
+        list_i = examMain.question_paper.questions.all()
+        queslist = examQuestionsList.questions.all()
+        i = 0
+        for ques in queslist:
+            max_m = list_i[i].max_marks
             ans = request.POST.get(ques.question, False)
             if not ans:
                 ans = "E"
             ques.choice = ans
             ques.save()
-            if ans == ques.answer:
-                examScore = examScore + ques.max_marks
+            if ans.lower() == ques.answer.lower() or ans == ques.answer:
+                examScore = examScore + max_m
+            i+=1
 
         stuExam.score = examScore
         stuExam.save()
-
+        stu = StuExam_DB.objects.filter(student=request.user,examname=examMain.name)  
+        results = StuResults_DB.objects.get_or_create(student=request.user)[0]
+        import pdb; pdb.set_trace()
+        results.exams.add(stu[0])
+        results.save()
         return redirect('view_exams_student')
 
 def result(request,id):
     student = request.user
     exam = Exam_Model.objects.get(pk=id)
-    score = StuExam_DB.objects.get(student=student,examname=exam.name).score
+    score = StuExam_DB.objects.get(student=student,qpaper=exam.question_paper).score
     return render(request,'exam/result.html',{'exam':exam,"score":score})

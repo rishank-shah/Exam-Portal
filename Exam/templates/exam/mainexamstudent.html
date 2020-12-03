@@ -5,7 +5,6 @@
     </div>
     <div class="container">
         {% if exams %}
-            {% for exam in exams %}
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -14,15 +13,16 @@
                         <th scope="col">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                        <td>{{exam.name}}</td>
-                        <td>{{exam.professor}}</td>
-                        <td><a href="{% url 'appear-exam' exam.id  %}" class="btn btn-sm btn-danger">Appear</a></td>
-                        </tr>
-                    </tbody>
+                {% for exam in exams %}
+                        <tbody>
+                            <tr>
+                            <td>{{exam.name}}</td>
+                            <td>{{exam.professor}}</td>
+                            <td><a href="{% url 'appear-exam' exam.id  %}" class="btn btn-sm btn-danger">Appear</a></td>
+                            </tr>
+                        </tbody>
+                {% endfor %}
                 </table>
-            {% endfor %}
         {% else %}
             <div class="jumbotron text-center bg-success">
                 NO PENDING EXAMS
@@ -31,7 +31,6 @@
     </div>
     <div class="container">
         {% if completed %}
-            {% for exam in completed %}
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -40,6 +39,7 @@
                         <th scope="col">Action</th>
                         </tr>
                     </thead>
+            {% for exam in completed %}
                     <tbody>
                         <tr>
                         <td>{{exam.name}}</td>
@@ -48,9 +48,9 @@
                             <a href="{% url 'result' exam.id  %}" class="btn btn-sm btn-info">Result</a>
                         </tr>
                     </tbody>
-                </table>
                 <input type="hidden" value="{{ exam }}" name="paper">
             {% endfor %}
+            </table>
         {% endif %}
     </div>
     

@@ -21,7 +21,7 @@ class Stu_Question(Question_DB):
     choice = models.CharField(max_length=3, default="E")
 
     def __str__(self):
-        return str(self.student.username) + "Stu_QuestionDB"
+        return str(self.student.username) + " "+ str(self.qno) +"-Stu_QuestionDB"
 
 
 class StuExam_DB(models.Model):
@@ -33,7 +33,7 @@ class StuExam_DB(models.Model):
     completed = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.student.username) + "StuExam_DB"
+        return str(self.student.username) +" " + str(self.examname) + " " + str(self.qpaper.qPaperTitle) + "-StuExam_DB"
 
 
 class StuResults_DB(models.Model):
@@ -41,4 +41,4 @@ class StuResults_DB(models.Model):
     exams = models.ManyToManyField(StuExam_DB)
 
     def __str__(self):
-        return str(self.student.username) + "StuResults_DB"
+        return str(self.student.username) +" -StuResults_DB"
