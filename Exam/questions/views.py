@@ -97,7 +97,6 @@ def appear_exam(request,id):
         stuExam.save()
         stu = StuExam_DB.objects.filter(student=request.user,examname=examMain.name)  
         results = StuResults_DB.objects.get_or_create(student=request.user)[0]
-        import pdb; pdb.set_trace()
         results.exams.add(stu[0])
         results.save()
         return redirect('view_exams_student')

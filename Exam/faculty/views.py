@@ -90,4 +90,4 @@ class LogoutView(View):
 	def post(self,request):
 		auth.logout(request)
 		messages.success(request,'Logged Out')
-		return redirect('login')
+		return redirect('faculty-login')
