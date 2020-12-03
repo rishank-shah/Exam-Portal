@@ -1,16 +1,17 @@
 # Exam Portal In Django
 
-### To run this project follow the instructions given below:
+## To run this project follow the instructions given below:
 
 ### Please Note: Python 3.8.2 is needed to run this project
 
-#### First we will need a .env file for storing email credentials
+#### First Clone the project
 ```
 git clone https://github.com/rishank-shah/Exam-Portal.git
 cd Exam-Portal
-touch .env
 ```
 
+#### Now we will need a .env file for storing email credentials
+#### create .env in the Exam-Portal directory
 #### Contents of .env file
 ```
 export EMAIL_HOST_PASSWORD=<PASSWORD_OF_EMAIL_ACCOUNT>
@@ -33,11 +34,33 @@ set EMAIL_HOST=<SMTP>
 set DEFAULT_FROM_EMAIL=<EMAIL_ACCOUNT>
 ```
 
-#### After running env file commands as per os 
+#### After running env file commands as per os run following commands:-
 ```
 pip install pipenv
 pipenv shell
 pipenv install
 cd Exam
+python manage.py migrate
+python manage.py makemigrations
+python manage.py migrate
+```
+
+#### Once done with that create a superuser account:
+```
+python manage.py createsuperuser
+```
+
+#### Once superuser account is created we can run the website
+```
 python manage.py runserver
 ```
+
+#### If there are no errors website will be running on [http://127.0.0.1:8000/](http://127.0.0.1:8000/) (default)
+
+#### For creating accounts for professor's we will need a group called Professor
+1. Go to [http://127.0.0.1:8000/admin/auth/group/add/](http://127.0.0.1:8000/admin/auth/group/add/)
+2. Login with superuser account
+3. Add a new group named Professor
+
+
+#### For Professor verification, admin will need to manually add professor to Professor group once they create a new account
