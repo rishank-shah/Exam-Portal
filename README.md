@@ -37,6 +37,7 @@ set DEFAULT_FROM_EMAIL=<EMAIL_ACCOUNT>
 #### After running env file commands as per os run following commands:-
 ```
 pip install pipenv
+pip install django[argon2]
 pipenv shell
 pipenv install
 cd Exam

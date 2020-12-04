@@ -1,0 +1,40 @@
+{% extends 'base_faculty.html' %}
+
+{% block body %}
+    <div class="mt-5">
+    </div>
+    
+<div class="row">
+	<div class="col-md-2"></div>
+    <div class="col-md-6">
+    <div class="ml-5 container">
+        {% if exams %}
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">Exam Name</th>
+                        <th scope="col">Exam Professor</th>
+                        <th scope="col">Students Attended</th>
+                        <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                {% for exam in exams %}
+                        <tbody>
+                            <tr>
+                            <td>{{exam.name}}</td>
+                            <td>{{exam.professor}}</td>
+                            <td>{{count}}</td>
+                            <td><a href="{% url 'faculty-index' %}" class="btn btn-sm btn-danger">Edit</a></td>
+                            </tr>
+                        </tbody>
+                {% endfor %}
+                </table>
+        {% else %}
+            <div class="jumbotron text-center bg-success">
+                NO EXAMS CREATED
+            </div>
+        {% endif %}
+    </div>
+
+    
+{% endblock %}

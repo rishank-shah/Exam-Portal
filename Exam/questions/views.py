@@ -4,6 +4,7 @@ from .models import *
 from django.contrib.auth.models import Group
 from student.models import *
 from django.utils import timezone
+from student.models import StuExam_DB,StuResults_DB
 
 def has_group(user, group_name):
     group = Group.objects.get(name=group_name)
@@ -11,13 +12,14 @@ def has_group(user, group_name):
 
 def view_exams_prof(request):
     prof = request.user
+    prof_user = User.objects.get(username=prof)
     permissions = False
     if prof:
         permissions = has_group(prof,"Professor")
     if permissions:
-        new_Form = ExamForm()
+        new_Form = ExamForm(prof_user)
         if request.method == 'POST' and permissions:
-            form = ExamForm(request.POST)
+            form = ExamForm(prof_user,request.POST)
             if form.is_valid():
                 exam = form.save(commit=False)
                 exam.professor = prof
@@ -31,6 +33,51 @@ def view_exams_prof(request):
         })
     else:
         return redirect('view_exams_student')
+
+def view_previousexams_prof(request):
+    prof = request.user
+    student = 0
+    exams = Exam_Model.objects.filter(professor=prof)
+    for exam in exams:
+        if StuExam_DB.objects.filter(examname=exam.name,completed=1).exists():
+            student += StuExam_DB.objects.filter(examname=exam.name,completed=1).count()
+    return render(request, 'exam/previousexam.html', {
+        'exams': exams,'prof': prof, 'count':student
+    })
+
+def view_students_prof(request):
+    students = User.objects.filter(groups__name = "Student")
+    student_name = []
+    student_completed = []
+    dicts = {}
+    for student in students:
+        student_name.append(student.username)
+        if StuExam_DB.objects.filter(student=student,examname='Cg main',completed=1).exists():
+            student_completed.append(StuExam_DB.objects.filter(student=student,examname='Cg main',completed=1).count())
+        else:
+            student_completed.append(0)
+    for i in student_name:
+        for x in student_completed:
+            dicts[i] = x
+    return render(request, 'exam/viewstudents.html', {
+        'students':dicts
+    })
+
+def view_results_prof(request):
+    students = User.objects.filter(groups__name = "Student")
+    dicts = {}
+    prof = request.user
+    professor = User.objects.get(username=prof.username)
+    examn = Exam_Model.objects.filter(professor=professor)
+    for exam in examn:
+        if StuExam_DB.objects.filter(examname=exam.name,completed=1).exists():
+            students_filter = StuExam_DB.objects.filter(examname='Cg main',completed=1)
+            for student in students_filter:
+                key = str(student.student) + " " + str(student.examname) + " " + str(student.qpaper.qPaperTitle)
+                dicts[key] = student.score
+    return render(request, 'exam/resultsstudent.html', {
+        'students':dicts
+    })
 
 def view_exams_student(request):
     exams = Exam_Model.objects.all()
