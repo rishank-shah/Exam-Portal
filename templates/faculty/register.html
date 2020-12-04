@@ -1,0 +1,100 @@
+{% load static %}
+{% include 'base_auth.html' %}
+
+{% block body %}
+<style>
+*{
+  color: #745959;
+}
+img{
+  width:35em;
+  height:60.5em;
+    padding-right: 10%;
+
+}
+.row{
+  display: grid;
+    margin: 0%;
+    padding: 10%;
+    background: rgba(0,0,0,0.5);
+  grid-template-columns: 40% auto;
+}
+input[type=submit]:hover{
+        background: #87FF9B;
+    }
+.overlay{
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    }
+</style>
+<div class="overlay">
+  <div class="row">
+    <div class="col"><br><br>
+      <img src="{% static 'img/registration.jpg' %}" alt="">
+    </div>
+    <div class="col">
+      <div class="container">
+      <div class="card mt-5">
+        <div class="card-body">
+          <div class="card-title py-3">
+						<h4>Register for a account</h4>
+						<h5>Please Note this is registration for faculty only</h5>
+                    </div>
+                    <form action="{% url 'faculty-register' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'partials/_messages.html' %}
+                        <div class="form-group">
+                            <label for = "username">{{ faculty_form.username.label_tag }} </label>
+                            {{faculty_form.username}}
+                        </div>
+
+                        <div class="invalid-feedback " style="display: none;">
+                            <p>
+
+                            </p>
+                        </div>
+
+                        <p class="text-sm text-success usernamevalidOut"></p>
+
+                        <div class="form-group">
+                            <label for = "email">Email</label>
+                            {{faculty_form.email}}
+                        </div>
+
+                        <div class="email-feedback invalid-feedback" style="display: none">
+                            <p>
+
+                            </p>
+                        </div>
+
+                        <div>
+                            {{faculty_info_form.as_p}}
+                        </div>
+                        <div class="form-group">
+                            <label for = "password">{{ faculty_form.password.label_tag }} </label>
+                                {{faculty_form.password}}
+                            <small class="float-right py-2 showPasswordToggle">SHOW</small>
+                        </div>
+
+                        <input type="submit" value="Register" class = "btn btn-block btn-primary"/>
+
+                    </form>
+
+                <div class="container">
+                        <span class = "text-lead lead"> Already have an account? </span><a href = "{% url 'faculty-login' %}" class="">Login</a>
+                    </div>
+
+                </div>
+            </div>
+          </div>
+
+        </div>
+	<div class="col-md-4"></div>
+</div>
+</div>
+<script src = "{% static 'js/register.js' %}" type="text/javascript"></script>
+
+{% endblock  %}

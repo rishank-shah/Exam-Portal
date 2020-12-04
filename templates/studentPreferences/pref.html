@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<style media="screen">
+	*{
+		color: #745959;
+	}
+	button[type=submit]:hover{
+	        background: rgba(116, 89, 89,0.7);
+	    }
+</style>
+	<div class="container mt-3">
+		{% include 'partials/_messages.html' %}
+		<h5>Login Email Notifications</h5>
+		<form method="post" action="{% url 'email-student-pref' %}">
+			{% csrf_token %}
+			<div class="input-group">
+			  <select name = "email_pref" class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+
+			  	{% if student_preference %}
+			    	<option selected name = "email_pref" value = "{{ student_preference.sendEmailOnLogin }}">{{ email_pref_value }}</option>
+					<option name = "email_pref" value="False" >Off</option>
+                    <option name = "email_pref" value="True" >On</option>
+			    {% else %}
+					<option selected name = "email_pref" value = "True">On</option>
+					<option name = "email_pref" value="False" >Off</option>
+				{% endif %}
+			  </select>
+			  <div class="input-group-append">
+			    <button class="btn btn-outline-light" type="submit" value="Save" style="border-color:#745959; color:#745959;">Save</button>
+			  </div>
+			</div>
+		</form>
+
+		<hr/>
+		<h5>Change Password : <a href="{% url 'change_password'%}" class ="btn btn-sm btn-warning">Click here to change password</a></h5>
+
+	</div>
+
+
+
+{% endblock %}

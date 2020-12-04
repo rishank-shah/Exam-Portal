@@ -1,0 +1,31 @@
+{% extends 'base_faculty.html' %}
+
+{% block body %}
+<div class="mt-4">
+</div>
+<div class="row">
+	<div class="col-md-1"></div>
+    <div class="col-md-8">
+<div class="container mt-4">
+    {% include 'partials/_messages.html' %}
+    <h1>Faculty Index</h1>
+    <p>
+        <h3>Instructions to create New Exam</h3>
+        <ul class="list-group">
+            <li class="list-group-item">First Create <a href="{% url 'view_exams' %}">
+              <span data-feather="file"></span>
+              New Questions
+            </a> to add in exam model</li>
+            <li class="list-group-item">Then add a <a href="{% url 'view_exams' %}">
+              <span data-feather="file"></span>
+              New Question Paper
+            </a></li>
+            <li class="list-group-item">Finally you can create a <a href="{% url 'view_exams' %}">
+              <span data-feather="file"></span>
+              New Exam
+            </a> and add all the questions and questionpapers</li>
+        </ul>
+    </p>
+</div>
+</div>
+{% endblock  %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="mt-5">
+    </div>
+    <div class="container">
+        {% if exams %}
+                <table class="table">
+                    <thead class="thead" style="color: #745959; background-color: #a3d5ff">
+                        <th scope="col">Exam Name</th>
+                        <th scope="col">Exam Title</th>
+                        <th scope="col">Exam Professor</th>
+                        <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                {% for exam in exams %}
+                        <tbody>
+                            <tr>
+                            <td>{{exam.name}}</td>
+                            <td>{{exam.question_paper.qPaperTitle}}</td>
+                            <td>{{exam.professor}}</td>
+                            <td><a onclick = window.open("{% url 'appear-exam' exam.id  %}","","width=800,height=800") target="_blank" class="btn btn-sm btn-danger">Appear</a></td>
+                            </tr>
+                        </tbody>
+                {% endfor %}
+                </table>
+        {% else %}
+            <div class="jumbotron text-center bg-success">
+                NO PENDING EXAMS
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

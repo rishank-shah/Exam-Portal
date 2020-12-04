@@ -1,0 +1,57 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Portal Faculty</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+</head>
+<body>
+  <style media="screen">
+    *{
+      color: #745959;
+    }
+    input[type=submit]:hover{
+            background-color: #87ff9b;
+    }
+  </style>
+    <nav class="navbar navbar-light" style="background-color: #87ff9b">
+  <a href="{% url 'faculty-index' %}" style="color:#745959">Home</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <ul class="navbar-nav px-3" style="display:flex;flex-direction:row;align-items:center">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="#">{{request.user.username}}</a>
+    </li>
+    <li class="nav-item text-nowrap mt-2 ml-3">
+      <form action="{% url 'faculty-logout' %}" method="POST">
+         {% csrf_token %}
+        <input class="text text-capitalize" type="submit" value="Sign out" style="color:#745959; border-radius: 0.3em;">
+      </form>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    {% include 'partials/_sidebar_faculty.html' %}
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+
+      {% block body %}
+
+
+      {% endblock %}
+
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+</body>
+</html>
