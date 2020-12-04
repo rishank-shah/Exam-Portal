@@ -20,7 +20,7 @@
                             <td>{{exam.name}}</td>
                             <td>{{exam.question_paper.qPaperTitle}}</td>
                             <td>{{exam.professor}}</td>
-                            <td><a href="{% url 'appear-exam' exam.id  %}" class="btn btn-sm btn-danger">Appear</a></td>
+                            <td><a onclick = window.open("{% url 'appear-exam' exam.id  %}","","width=800,height=800") target="_blank" class="btn btn-sm btn-danger">Appear</a></td>
                             </tr>
                         </tbody>
                 {% endfor %}

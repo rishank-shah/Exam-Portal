@@ -7,6 +7,7 @@ from django.utils import timezone
 from student.models import StuExam_DB,StuResults_DB
 from questions.questionpaper_models import QPForm
 from questions.question_models import QForm
+from django.utils import timezone
 
 def has_group(user, group_name):
     group = Group.objects.get(name=group_name)
@@ -181,13 +182,26 @@ def view_students_attendance(request):
         'completed':list_of_completed
     })
 
+def convert(seconds): 
+    min, sec = divmod(seconds, 60) 
+    hour, min = divmod(min, 60) 
+    min += hour*60
+    return "%02d:%02d" % (min, sec) 
+
 def appear_exam(request,id):
     student = request.user
     if request.method == 'GET':
         exam = Exam_Model.objects.get(pk=id)
+        time_delta = exam.end_time - exam.start_time
+        time = convert(time_delta.seconds)
+        time = time.split(":")
+        mins = time[0]
+        secs = time[1]
         context = {
             "exam":exam,
             "question_list":exam.question_paper.questions.all(),
+            "secs":secs,
+            "mins":mins
         }
         return render(request,'exam/giveExam.html',context)
     if request.method == 'POST' :
@@ -215,7 +229,8 @@ def appear_exam(request,id):
         list_i = examMain.question_paper.questions.all()
         queslist = examQuestionsList.questions.all()
         i = 0
-        for ques in queslist:
+        for j in range(list_i.count()):
+            ques = queslist[j]
             max_m = list_i[i].max_marks
             ans = request.POST.get(ques.question, False)
             if not ans:
