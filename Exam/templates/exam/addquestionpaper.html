@@ -1,0 +1,28 @@
+{% extends 'base_faculty.html' %}
+
+{% block body %}
+    <div class="mt-5">
+    </div>
+    
+<style>
+    #id_questions{display:block;width:100%;height:calc(10em);padding:.375rem .75rem;font-size:1rem;font-weight:400;line-height:1.5;color:#495057;background-color:#fff;background-clip:padding-box;border:1px solid #ced4da;border-radius:.25rem;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}
+</style>
+<div class="row">
+	<div class="col-md-2"></div>
+    <div class="col-md-6">
+        <div class="ml-5 card">
+            <form method="POST" action="{% url 'faculty-add_question_paper' %}">
+                <div class="container">
+                    {% csrf_token %}
+                    {{examform.as_p}}
+                </div>
+                <div class="text-center">
+                <button class= "btn btn-primary"type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        </div>
+</div>
+
+    
+{% endblock %}

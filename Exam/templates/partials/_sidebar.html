@@ -2,24 +2,24 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link active" href="#">
               <span data-feather="home"></span>
               Dashboard <span class="sr-only">(current)</span>
             </a>
-          </li>
+          </li> {% endcomment %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'view_exams' %}">
               <span data-feather="file"></span>
               Exams
             </a>
           </li>
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="{% url 'index' %}">
               <span data-feather="shopping-cart"></span>
               Previous Exams
             </a>
-          </li>
+          </li> {% endcomment %}
         </ul>
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -30,14 +30,14 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'index' %}">
+            <a class="nav-link" href="{% url 'view_students_attendance' %}">
               Attendance
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'student-previous' %}">
               <span data-feather="file-text"></span>
-             Result
+             Results and Previous Exams
             </a>
           </li>
         </ul>
@@ -54,12 +54,12 @@
               General Settings
             </a>
           </li>
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="file-text"></span>
              Account Settings
             </a>
-          </li>
+          </li> {% endcomment %}
         </ul>
 
       </div>

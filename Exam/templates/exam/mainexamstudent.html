@@ -9,6 +9,7 @@
                     <thead class="thead-dark">
                         <tr>
                         <th scope="col">Exam Name</th>
+                        <th scope="col">Exam Title</th>
                         <th scope="col">Exam Professor</th>
                         <th scope="col">Action</th>
                         </tr>
@@ -17,6 +18,7 @@
                         <tbody>
                             <tr>
                             <td>{{exam.name}}</td>
+                            <td>{{exam.question_paper.qPaperTitle}}</td>
                             <td>{{exam.professor}}</td>
                             <td><a href="{% url 'appear-exam' exam.id  %}" class="btn btn-sm btn-danger">Appear</a></td>
                             </tr>
@@ -27,30 +29,6 @@
             <div class="jumbotron text-center bg-success">
                 NO PENDING EXAMS
             </div>
-        {% endif %}
-    </div>
-    <div class="container">
-        {% if completed %}
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                        <th scope="col">Exam Name</th>
-                        <th scope="col">Exam Professor</th>
-                        <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-            {% for exam in completed %}
-                    <tbody>
-                        <tr>
-                        <td>{{exam.name}}</td>
-                        <td>{{exam.professor}}</td>
-                        <td>
-                            <a href="{% url 'result' exam.id  %}" class="btn btn-sm btn-info">Result</a>
-                        </tr>
-                    </tbody>
-                <input type="hidden" value="{{ exam }}" name="paper">
-            {% endfor %}
-            </table>
         {% endif %}
     </div>
     

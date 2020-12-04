@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="mt-5">
+    </div>
+    <div class="container">
+        {% if completed %}
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">Exam Name</th>
+                        <th scope="col">Exam title</th>
+                        <th scope="col">Exam Professor</th>
+                        <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+            {% for exam in completed %}
+                    <tbody>
+                        <tr>
+                        <td>{{exam.name}}</td>
+                        <td>{{exam.question_paper.qPaperTitle}}</td>
+                        <td>{{exam.professor}}</td>
+                        <td>
+                            <a href="{% url 'result' exam.id  %}" class="btn btn-sm btn-info">Result</a>
+                        </tr>
+                    </tbody>
+                <input type="hidden" value="{{ exam }}" name="paper">
+            {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+    
+{% endblock %}

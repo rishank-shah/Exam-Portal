@@ -4,10 +4,31 @@
     <div class="mt-5">
     </div>
     <div class="container">
-        <h2>Results for {{exam.name}}-{{exam.question_paper.qpaper.qPaperTitle}}</h2>
+        {% comment %} <h2>Results for {{exam.name}} {{exam.question_paper.qPaperTitle}}</h2>
         <p>
             You got {{score}} marks out of {{exam.total_marks}}
-        </p>
+        </p> {% endcomment %}
+        
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Exam Professor</th>
+                <th scope="col">Exam Name</th>
+                <th scope="col">Exam Title</th>
+                <th scope="col">Marks Obtained</th>
+                <th scope="col">Total Marks</th>
+                </tr>
+            </thead>
+                <tbody>
+                    <tr>
+                    <td>{{exam.professor}}</td>
+                    <td>{{exam.name}}</td>
+                    <td>{{exam.question_paper.qPaperTitle}}</td>
+                    <td>{{score}}</td>
+                    <td>{{exam.total_marks}}</td>
+                    </tr>
+                </tbody>
+        </table>
     </div>
     
 {% endblock %}

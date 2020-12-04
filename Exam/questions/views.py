@@ -5,6 +5,8 @@ from django.contrib.auth.models import Group
 from student.models import *
 from django.utils import timezone
 from student.models import StuExam_DB,StuResults_DB
+from questions.questionpaper_models import QPForm
+from questions.question_models import QForm
 
 def has_group(user, group_name):
     group = Group.objects.get(name=group_name)
@@ -34,31 +36,99 @@ def view_exams_prof(request):
     else:
         return redirect('view_exams_student')
 
+def add_question_paper(request):
+    prof = request.user
+    prof_user = User.objects.get(username=prof)
+    permissions = False
+    if prof:
+        permissions = has_group(prof,"Professor")
+    if permissions:
+        new_Form = QPForm(prof_user)
+        if request.method == 'POST' and permissions:
+            form = QPForm(prof_user,request.POST)
+            if form.is_valid():
+                exam = form.save(commit=False)
+                exam.professor = prof_user
+                exam.save()
+                form.save_m2m()
+                return redirect('faculty-add_question_paper')
+
+        exams = Exam_Model.objects.filter(professor=prof)
+        return render(request, 'exam/addquestionpaper.html', {
+            'exams': exams, 'examform': new_Form, 'prof': prof,
+        })
+    else:
+        return redirect('view_exams_student')
+
+def add_questions(request):
+    prof = request.user
+    prof_user = User.objects.get(username=prof)
+    permissions = False
+    if prof:
+        permissions = has_group(prof,"Professor")
+    if permissions:
+        new_Form = QForm()
+        if request.method == 'POST' and permissions:
+            form = QForm(request.POST)
+            if form.is_valid():
+                exam = form.save(commit=False)
+                exam.professor = prof_user
+                exam.save()
+                form.save_m2m()
+                return redirect('faculty-addquestions')
+
+        exams = Exam_Model.objects.filter(professor=prof)
+        return render(request, 'exam/addquestions.html', {
+            'exams': exams, 'examform': new_Form, 'prof': prof,
+        })
+    else:
+        return redirect('view_exams_student')
+
 def view_previousexams_prof(request):
     prof = request.user
     student = 0
     exams = Exam_Model.objects.filter(professor=prof)
-    for exam in exams:
-        if StuExam_DB.objects.filter(examname=exam.name,completed=1).exists():
-            student += StuExam_DB.objects.filter(examname=exam.name,completed=1).count()
     return render(request, 'exam/previousexam.html', {
-        'exams': exams,'prof': prof, 'count':student
+        'exams': exams,'prof': prof
     })
+
+def student_view_previous(request):
+    exams = Exam_Model.objects.all()
+    list_of_completed = []
+    list_un = []
+    for exam in exams:
+        if StuExam_DB.objects.filter(examname=exam.name ,student=request.user).exists():
+            if StuExam_DB.objects.get(examname=exam.name,student=request.user).completed == 1:
+                list_of_completed.append(exam)
+        else:
+            list_un.append(exam)
+
+    return render(request,'exam/previousstudent.html',{
+        'exams':list_un,
+        'completed':list_of_completed
+    })
+
 
 def view_students_prof(request):
     students = User.objects.filter(groups__name = "Student")
     student_name = []
     student_completed = []
+    count = 0
     dicts = {}
+    examn = Exam_Model.objects.filter(professor=request.user)
     for student in students:
         student_name.append(student.username)
-        if StuExam_DB.objects.filter(student=student,examname='Cg main',completed=1).exists():
-            student_completed.append(StuExam_DB.objects.filter(student=student,examname='Cg main',completed=1).count())
-        else:
-            student_completed.append(0)
-    for i in student_name:
-        for x in student_completed:
-            dicts[i] = x
+        count = 0
+        for exam in examn:
+            if StuExam_DB.objects.filter(student=student,examname=exam.name,completed=1).exists():
+                count += 1
+            else:
+                count += 0
+        student_completed.append(count)
+    i = 0
+    for x in student_name:
+        dicts[x] = student_completed[i]
+        i+=1
     return render(request, 'exam/viewstudents.html', {
         'students':dicts
     })
@@ -71,7 +141,7 @@ def view_results_prof(request):
     examn = Exam_Model.objects.filter(professor=professor)
     for exam in examn:
         if StuExam_DB.objects.filter(examname=exam.name,completed=1).exists():
-            students_filter = StuExam_DB.objects.filter(examname='Cg main',completed=1)
+            students_filter = StuExam_DB.objects.filter(examname=exam.name,completed=1)
             for student in students_filter:
                 key = str(student.student) + " " + str(student.examname) + " " + str(student.qpaper.qPaperTitle)
                 dicts[key] = student.score
@@ -91,6 +161,22 @@ def view_exams_student(request):
             list_un.append(exam)
 
     return render(request,'exam/mainexamstudent.html',{
+        'exams':list_un,
+        'completed':list_of_completed
+    })
+
+def view_students_attendance(request):
+    exams = Exam_Model.objects.all()
+    list_of_completed = []
+    list_un = []
+    for exam in exams:
+        if StuExam_DB.objects.filter(examname=exam.name ,student=request.user).exists():
+            if StuExam_DB.objects.get(examname=exam.name,student=request.user).completed == 1:
+                list_of_completed.append(exam)
+        else:
+            list_un.append(exam)
+
+    return render(request,'exam/attendance.html',{
         'exams':list_un,
         'completed':list_of_completed
     })
@@ -151,5 +237,5 @@ def appear_exam(request,id):
 def result(request,id):
     student = request.user
     exam = Exam_Model.objects.get(pk=id)
-    score = StuExam_DB.objects.get(student=student,qpaper=exam.question_paper).score
+    score = StuExam_DB.objects.get(student=student,examname=exam.name,qpaper=exam.question_paper).score
     return render(request,'exam/result.html',{'exam':exam,"score":score})
