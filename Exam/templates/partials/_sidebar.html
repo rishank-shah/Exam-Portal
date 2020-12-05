@@ -1,66 +1,137 @@
 {% load static %}
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-      <div class="sidebar-sticky pt-3">
-        <ul class="nav flex-column">
-          {% comment %} <li class="nav-item">
-            <a class="nav-link active" href="#">
-              <span data-feather="home"></span>
-              Dashboard <span class="sr-only">(current)</span>
-            </a>
-          </li> {% endcomment %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'view_exams' %}">
-              <span data-feather="file"></span>
-              Exams
-            </a>
-          </li>
-          {% comment %} <li class="nav-item">
-            <a class="nav-link" href="{% url 'index' %}">
-              <span data-feather="shopping-cart"></span>
-              Previous Exams
-            </a>
-          </li> {% endcomment %}
-        </ul>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+  }
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Summary</span>
-          <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'view_students_attendance' %}">
-              Attendance
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'student-previous' %}">
-              <span data-feather="file-text"></span>
-             Results and Previous Exams
-            </a>
-          </li>
-        </ul>
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Settings</span>
-          <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'email-student-pref' %}">
-              General Settings
-            </a>
-          </li>
-          {% comment %} <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-             Account Settings
-            </a>
-          </li> {% endcomment %}
-        </ul>
+  .sidebar{
+    border-radius: 0.5em;
+    position: fixed;
+    top: 5em;
+    left: -16em;
+    width: 17em;
+    height: 100%;
+    background: white;
+    transition: all .5s ease;
+  }
 
-      </div>
-    </nav>
+  .sidebar header{
+    font-size: 2em;
+    color: #745959;
+    text-align: center;
+    line-height: 2em;
+    background: none;
+    user-select: none;
+  }
+
+  .sidebar ul a{
+    color: #745959;
+  }
+
+  .sidebar li{
+    display: block;
+    width: 100%;
+    line-height: 2em;
+    font-size: 1.5em;
+    color: #745959;
+    padding-left: 1.5em;
+    box-sizing: border-box;
+    border-top: 0.1em solid rgba(116, 89, 89,0.1);
+  }
+
+  ul li:hover a{
+    padding-left: 1em;
+    transition: 0.6s;
+  }
+
+  .sidebar ul a i {
+    margin-right: 10em;
+  }
+
+  #check{
+    display:none;
+  }
+
+  label #btn, label #cancel{
+    position: absolute;
+    cursor: pointer;
+    border-radius: 0.1em;
+  }
+
+  label #btn{
+    left: 1em;
+    top: 2.1em;
+    font-size: 2.5em;
+    color: #a3d5ff;
+    padding: 0.2em;
+    border: #bdaf7b;
+    transition: all 0.5s;
+  }
+
+  label #cancel{
+    z-index: 1111;
+    left: -5.5em;
+    top: 2.1em;
+    font-size: 2.5em;
+    color: #a3d5ff;
+    padding: 0.2em;
+    transition: all 0.5s ease;
+  }
+
+  #check:checked ~ .sidebar{
+    left: 0;
+  }
+
+  #check:checked ~ label #btn{
+    left: 2em;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #check:checked ~ label #cancel{
+    left: 5.5em;
+  }
+
+  #check:checked ~ section{
+    margin-left: 20em;
+  }
+
+  section{
+    padding: 2em 5em 5em 2em;
+    transition: all 0.5s ease;
+  }
+
+</style>
+<input type="checkbox" id="check">
+<label for="check">
+  <i class="fas fa-bars" id="btn"></i>
+  <i class="fas fa-times" id="cancel"></i>
+</label>
+<div class="sidebar">
+  <header>
+    Dashboard
+  </header>
+  <ul>
+    <li><i class="fas fa-file-alt"></i>  Exams</li>
+    <ul>
+      <li><a href="{% url 'view_exams' %}">Exams</a></li>
+    </ul>
+    <li><i class="fas fa-clipboard-list"></i>  Summary</li>
+    <ul>
+      <li><a href="{% url 'view_students_attendance' %}">Attendance</a></li>
+      <li><a href="{% url 'student-previous' %}">Results and Previous Exams</a></li>
+    </ul>
+    <li><i class="fas fa-sliders-h"></i>  Settings</a></li>
+    <ul>
+      <li><a href="{% url 'email-student-pref' %}">General Settings</a></li>
+    </ul>
+  </ul>
+</div>
+<!-- <section>
+  {% block body %}
+  {% endblock %}
+</section> -->

@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<style media="screen">
+  *{
+    color:#745959;
+  }
+</style>
     <div class="mt-5">
     </div>
     <div class="container">
         {% if exams %}
                 <table class="table">
-                    <thead class="thead-dark">
+                    <thead class="thead" style="background-color: #a3d5ff;">
                         <tr>
                         <th scope="col">Exam Name</th>
                         <th scope="col">Exam Professor</th>
@@ -27,7 +32,7 @@
     <div class="container">
         {% if completed %}
                 <table class="table">
-                    <thead class="thead-dark">
+                    <thead class="thead" style="background-color: #87ff9b">
                         <tr>
                         <th scope="col">Exam Name</th>
                         <th scope="col">Exam Professor</th>
@@ -48,5 +53,5 @@
             </table>
         {% endif %}
     </div>
-    
+
 {% endblock %}
