@@ -72,6 +72,7 @@ class LoginView(View):
 				has_grp = has_group(user_ch,"Professor")
 			if user and user.is_active and exis and has_grp:
 				auth.login(request,user)
+				messages.success(request,"Welcome, "+ user.username + ". You are now logged in.")
 				return redirect('faculty-index')
 			elif not has_grp and exis:
 				messages.error(request,'You dont have permssions to login as faculty. If You think this is a mistake please contact admin')	

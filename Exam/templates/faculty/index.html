@@ -1,6 +1,90 @@
 {% extends 'base_faculty.html' %}
 
 {% block body %}
+    <style>
+    body{
+      background-color: #f5f5f5;
+    }
+
+    *{
+      color: #745959;
+    }
+
+    .cards{
+      width: 25em;
+      height: 15em;
+      background-color: white;
+      display: flex;
+      align-items:center;
+      justify-content: center;
+      background-color: #87ff9b;
+    }
+    .distribute{
+	  padding-left: 5em;
+      display: grid;
+      grid-template-columns: 33.33% 33.33% auto;
+    }
+    .jumbotron{
+      padding-top: 5em;
+      padding-bottom: 15em;
+    }
+
+    .cards h2 {
+      display: none;
+    }
+    .cards:hover h1{
+      display: none;
+      transition: all 0.3s ease;
+    }
+    .cards:hover h2 {
+      display: flex;
+      text-align: center;
+      padding-left: 1em;
+      padding-right: 1em;
+      transition: all 0.3s ease;
+    }
+    .cards:hover {
+      transform: translateX(-0.5em);
+      transform: translateY(-0.5em);
+      box-shadow: 0.7em 0.7em 0.5em #d6d6d6;
+      transition: 0.3s ease;
+    }
+
+
+    </style>
+    <div class="container mt-5">
+      {% include 'partials/_messages.html' %}
+    </div>
+    <div class="container mt-5 text-center">
+      <h3>Instructions to create New Exam</h3>
+    </div>
+    <div class="container mt-5">
+    </div>
+    <div class="distribute">
+      <a href="{% url 'faculty-addquestions' %}">
+        <div class="cards">
+          <h1>First Step</h1>
+          <h2>First you will have to create new questions to be added in question paper</h2>
+        </div>
+      </a>
+      <a  href="{% url 'faculty-add_question_paper' %}">
+        <div class="cards">
+          <h1>Second Step</h1>
+          <h2>Now Create question paper and add those questions.</h2>
+        </div>
+      </a>
+      <a href="{% url 'view_exams' %}">
+        <div class="cards">
+          <h1>Third Step</h1>
+          <h2>Finally you can create an exam paper and add the question paper.</h2>
+        </div>
+      </a>
+    </div>
+  {% endblock %}
+
+{% comment %} {% extends 'base_faculty.html' %}
+
+{% block body %}
 <div class="mt-4">
 </div>
 <div class="row">
@@ -28,4 +112,4 @@
     </p>
 </div>
 </div>
-{% endblock  %}
+{% endblock  %} {% endcomment %}

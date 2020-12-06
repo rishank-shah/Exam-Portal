@@ -8,11 +8,13 @@ from student.models import StuExam_DB,StuResults_DB
 from questions.questionpaper_models import QPForm
 from questions.question_models import QForm
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 def has_group(user, group_name):
     group = Group.objects.get(name=group_name)
     return True if group in user.groups.all() else False
 
+@login_required(login_url='faculty-login')
 def view_exams_prof(request):
     prof = request.user
     prof_user = User.objects.get(username=prof)
@@ -37,6 +39,7 @@ def view_exams_prof(request):
     else:
         return redirect('view_exams_student')
 
+@login_required(login_url='faculty-login')
 def add_question_paper(request):
     prof = request.user
     prof_user = User.objects.get(username=prof)
@@ -61,6 +64,7 @@ def add_question_paper(request):
     else:
         return redirect('view_exams_student')
 
+@login_required(login_url='faculty-login')
 def add_questions(request):
     prof = request.user
     prof_user = User.objects.get(username=prof)
@@ -85,6 +89,7 @@ def add_questions(request):
     else:
         return redirect('view_exams_student')
 
+@login_required(login_url='faculty-login')
 def view_previousexams_prof(request):
     prof = request.user
     student = 0
@@ -93,6 +98,7 @@ def view_previousexams_prof(request):
         'exams': exams,'prof': prof
     })
 
+@login_required(login_url='login')
 def student_view_previous(request):
     exams = Exam_Model.objects.all()
     list_of_completed = []
@@ -109,7 +115,7 @@ def student_view_previous(request):
         'completed':list_of_completed
     })
 
-
+@login_required(login_url='faculty-login')
 def view_students_prof(request):
     students = User.objects.filter(groups__name = "Student")
     student_name = []
@@ -134,6 +140,7 @@ def view_students_prof(request):
         'students':dicts
     })
 
+@login_required(login_url='faculty-login')
 def view_results_prof(request):
     students = User.objects.filter(groups__name = "Student")
     dicts = {}
@@ -150,6 +157,7 @@ def view_results_prof(request):
         'students':dicts
     })
 
+@login_required(login_url='login')
 def view_exams_student(request):
     exams = Exam_Model.objects.all()
     list_of_completed = []
@@ -166,6 +174,7 @@ def view_exams_student(request):
         'completed':list_of_completed
     })
 
+@login_required(login_url='login')
 def view_students_attendance(request):
     exams = Exam_Model.objects.all()
     list_of_completed = []
@@ -188,6 +197,7 @@ def convert(seconds):
     min += hour*60
     return "%02d:%02d" % (min, sec) 
 
+@login_required(login_url='login')
 def appear_exam(request,id):
     student = request.user
     if request.method == 'GET':
@@ -249,6 +259,7 @@ def appear_exam(request,id):
         results.save()
         return redirect('view_exams_student')
 
+@login_required(login_url='login')
 def result(request,id):
     student = request.user
     exam = Exam_Model.objects.get(pk=id)

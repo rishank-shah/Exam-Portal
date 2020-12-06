@@ -118,7 +118,6 @@
     Dashboard
   </header>
   <ul>
-    <li><i class="fas fa-clipboard-list"></i>  Summary</li>
     <ul>
       <li><a href="{% url 'faculty-index' %}">Index</a></li>
     </ul>
@@ -133,6 +132,13 @@
       <li><a href="{% url 'faculty-previous' %}">View Previous Exams</a></li>
       <li><a href="{% url 'faculty-student' %}">Students</a></li>
       <li><a href="{% url 'faculty-result' %}">Results</a></li>
+    </ul>
+    <li><i class="fas fa-clipboard-list"></i>  Actions</a></li>
+    <ul>
+      <form id="my_form" action="{% url 'faculty-logout' %}" method="POST">
+         {% csrf_token %}
+        <li><a href="javascript:{}" onclick="document.getElementById('my_form').submit();">Logout</a></li>
+      </form>
     </ul>
   </ul>
 </div>

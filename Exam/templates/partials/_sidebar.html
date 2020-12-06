@@ -116,6 +116,9 @@
     Dashboard
   </header>
   <ul>
+    <ul>
+      <li><a href="{% url 'index' %}">Index</a></li>
+    </ul>
     <li><i class="fas fa-file-alt"></i>  Exams</li>
     <ul>
       <li><a href="{% url 'view_exams' %}">Exams</a></li>
@@ -125,9 +128,13 @@
       <li><a href="{% url 'view_students_attendance' %}">Attendance</a></li>
       <li><a href="{% url 'student-previous' %}">Results and Previous Exams</a></li>
     </ul>
-    <li><i class="fas fa-sliders-h"></i>  Settings</a></li>
+    <li><i class="fas fa-sliders-h"></i>  Settings and Actions </a></li>
     <ul>
       <li><a href="{% url 'email-student-pref' %}">General Settings</a></li>
+	  <form id="my_form" action="{% url 'logout' %}" method="POST">
+             {% csrf_token %}
+            <li><a href="javascript:{}" onclick="document.getElementById('my_form').submit();">Logout</a></li>
+      </form>
     </ul>
   </ul>
 </div>
