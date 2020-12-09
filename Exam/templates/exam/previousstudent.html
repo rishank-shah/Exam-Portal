@@ -27,6 +27,10 @@
                 <input type="hidden" value="{{ exam }}" name="paper">
             {% endfor %}
             </table>
+        {% else %}
+            <div class="jumbotron col-md-12 text-center bg-success">
+                NO EXAMS
+            </div>
         {% endif %}
     </div>
 
