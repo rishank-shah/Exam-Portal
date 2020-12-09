@@ -14,8 +14,9 @@
                         <tr>
                         <th scope="col">Exam Name</th>
                         <th scope="col">Exam Professor</th>
+                        <th scope="col">Exam Total Marks</th>
                         {% comment %} <th scope="col">Students Attended</th> {% endcomment %}
-                        <th scope="col">Action</th>
+                        {% comment %} <th scope="col">Action</th> {% endcomment %}
                         </tr>
                     </thead>
                 {% for exam in exams %}
@@ -23,8 +24,9 @@
                             <tr>
                             <td>{{exam.name}}</td>
                             <td>{{exam.professor}}</td>
+                            <td>{{exam.total_marks}}</td>
                             {% comment %} <td>{{count}}</td> {% endcomment %}
-                            <td><a href="{% url 'faculty-index' %}" class="btn btn-sm btn-danger">Edit</a></td>
+                            {% comment %} <td><a href="{% url 'faculty-index' %}" class="btn btn-sm btn-danger">Edit</a></td> {% endcomment %}
                             </tr>
                         </tbody>
                 {% endfor %}

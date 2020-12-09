@@ -1,10 +1,47 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css_block %}
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+{% endblock %}
 
 {% block body %}
+    <style>
+        img{
+        height:15em;
+        width:5em;
+      }
+    </style>
     <div class="mt-5">
     </div>
     <div class="container">
-        {% if exams %}
+            <div class="row">
+                {% if exams %}
+                    {% for exam in exams %}
+                        <div class="card col-md-3 mt-3 ml-3 text-center" style="width: 18rem;">
+                            <img class="card-img-top" src="{% static 'img/book.png' %}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{exam.name}}</h5>
+                                <p class="card-text text-center">Professor {{exam.professor}}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item text-center">Question Paper - {{exam.question_paper.qPaperTitle}}</li>
+                            </ul>
+                            <div class="card-body text-center">
+                                <a onclick = window.open("{% url 'appear-exam' exam.id  %}","","width=800,height=800") target="_blank" class="btn btn-outline-danger">Appear</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+    </div>
+    
+
+
+{% endblock %}
+
+
+{% comment %} {% if exams %}
                 <table class="table">
                     <thead class="thead" style="color: #745959; background-color: #a3d5ff">
                         <th scope="col">Exam Name</th>
@@ -28,7 +65,4 @@
             <div class="jumbotron text-center bg-success">
                 NO PENDING EXAMS
             </div>
-        {% endif %}
-    </div>
-
-{% endblock %}
+        {% endif %} {% endcomment %}
