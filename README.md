@@ -1,5 +1,11 @@
 # Exam Portal In Django
 
+#### Main Features:
+* Auto Submit Form as soon as timer runs out
+* If student window goes out of focus for 5 times while appearing for an exam professor will receive an email
+* Automatic calculation of marks once student submits Exam
+
+
 ## To run this project follow the instructions given below:
 
 ### Please Note: Python 3.8.2 is needed to run this project
@@ -20,13 +26,8 @@ export EMAIL_HOST=<SMTP>
 export DEFAULT_FROM_EMAIL=<EMAIL_ACCOUNT>
 ```
 
-#### Now if on linux run in cmd
-```
-source .env
-```
-
 #### If on Windows
-##### Create a env.bat file with following contents and then run that bat file in cmd
+##### Create a env.bat file with following contents 
 ```
 set EMAIL_HOST_PASSWORD=<PASSWORD_OF_EMAIL_ACCOUNT>
 set EMAIL_HOST_USER=<EMAIL_ACCOUNT>
@@ -34,12 +35,24 @@ set EMAIL_HOST=<SMTP>
 set DEFAULT_FROM_EMAIL=<EMAIL_ACCOUNT>
 ```
 
-#### After running env file commands as per os run following commands:-
+#### After creating env file, run following commands:-
 ```
 pip install pipenv
 pip install django[argon2]
 pipenv shell
 pipenv install
+```
+#### Now if on linux run in cmd
+```
+source .env
+```
+#### If on windows
+```
+env.bat
+```
+
+#### After running commands as per OS run:
+```
 cd Exam
 python manage.py migrate
 python manage.py makemigrations
