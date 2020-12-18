@@ -26,12 +26,6 @@
     <li class="nav-item text-nowrap">
       <a class="nav-link" href="#">{{request.user.username}}</a>
     </li>
-    {% comment %} <li class="nav-item text-nowrap mt-2 ml-3">
-      <form action="{% url 'faculty-logout' %}" method="POST">
-         {% csrf_token %}
-        <input class="text text-capitalize" type="submit" value="Sign out" style="color:#745959; border-radius: 0.3em;">
-      </form>
-    </li> {% endcomment %}
   </ul>
 </nav>
 

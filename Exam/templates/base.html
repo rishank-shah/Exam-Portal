@@ -28,14 +28,6 @@
         <li class="nav-item text-nowrap">
           <a class="nav-link" href="{% url 'email-student-pref' %}">Hi, {{request.user.username}}</a>
         </li>
-		{% comment %}
-        <li class="nav-item">
-          <form action="{% url 'logout' %}" method="POST">
-             {% csrf_token %}
-            <input class="text text-capitalize" type="submit" value="Sign out" style="color:#745959; border-radius: 0.3em;">
-          </form>
-        </li>
-		{% endcomment %}
       </ul>
     </nav>
 
