@@ -65,7 +65,7 @@ class Register(View):
     
 class LoginView(View):
 	def get(self,request):
-		return render(request,'student\login.html')
+		return render(request,'student/login.html')
 	def post(self,request):
 		username = request.POST['username']
 		password = request.POST['password']
